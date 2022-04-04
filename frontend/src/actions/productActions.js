@@ -1,6 +1,7 @@
 import { ProductActionTypes } from "../constants/actionTypes/productActionTypes";
+import { axios } from 'axios'
 
-export const listProducts = () => {
+export const listProducts = () => async (dispatch) => {
     try {
         dispatch({type: ProductActionTypes.PRODUCT_LIST_REQUEST})
 
