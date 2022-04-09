@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const ProductScreen = ({ history }) => {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const navigate = useNavigate()
 
