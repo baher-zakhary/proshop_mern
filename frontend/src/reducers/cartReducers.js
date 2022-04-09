@@ -1,6 +1,6 @@
 import { cartActionTypes } from "../constants/actionTypes/cartActionTypes";
 
-export const cartReducer = (state = { cartItems: [], action }) => {
+export const cartReducer = (state = { cartItems: [] }, action) => {
     switch (state.type) {
         case cartActionTypes.CART_ADD_ITEM:
             const itemToAdd = action.payload
