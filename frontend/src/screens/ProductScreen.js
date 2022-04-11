@@ -7,7 +7,7 @@ import { listProductDetails } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-const ProductScreen = ({ history }) => {
+const ProductScreen = () => {
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const navigate = useNavigate()
