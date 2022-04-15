@@ -8,7 +8,7 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     const config = { headers: { "Content-Type": "application/json" } };
-    const { data } = await axios.post("/api/users/login", { email, password }, config);
+    const { data } = await axios.post("/v1/api/auth/login", { email, password }, config);
 
     dispatch({
       type: userActionTypes.USER_LOGIN_SUCCESS,
