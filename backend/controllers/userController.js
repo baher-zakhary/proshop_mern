@@ -3,11 +3,11 @@ import { UserDto } from '../dtos/UserDto.js';
 import User from '../models/userModel.js'
 import { generateToken } from '../utils/authUtils.js';
 
-// @desc    Get user profile
-// @route   GET v1/api/users/profile
+// @desc    Get user by id
+// @route   GET v1/api/users/:id
 // @access  Private
-export const getUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.userId);
+export const getUserById = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
     if (user) {
         const userDto = new UserDto(user)
         res.json(userDto)
@@ -48,10 +48,10 @@ export const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc Update user profile
+// @desc Update user
 // @route PUT v1/api/users
 // @access Private
-export const updateUserProfile = asyncHandler(async (req, res) => {
+export const updateUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.userId)
 
     if (user) {
