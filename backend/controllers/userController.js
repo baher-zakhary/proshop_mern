@@ -47,3 +47,25 @@ export const registerUser = asyncHandler(async (req, res) => {
         throw new Error('Invalid user data')
     }
 })
+
+// @desc Update user profile
+// @route PUT v1/api/users
+// @access Private
+export const updateUserProfile = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.userId)
+
+    if (user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        if (req.body.password) {
+            user.password = req.body.password
+        }
+        const updatedUser = await user.save()
+        const updatedUserDto = new UserDto(updatedUser)
+        updatedUserDto.token = generateToken(updatedUser._id)
+        res.json(updatedUserDto)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
