@@ -40,7 +40,7 @@ export const registerUser = asyncHandler(async (req, res) => {
         const userDto = new UserDto(user)
         res.status(201).json({
             ...userDto,
-            token: generateToken(userId)
+            token: generateToken(user._id)
         })
     } else {
         res.status(400)
@@ -52,7 +52,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 // @route PUT v1/api/users
 // @access Private
 export const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.userId)
+    const user = await User.findById(req.body._id)
 
     if (user) {
         user.name = req.body.name || user.name
