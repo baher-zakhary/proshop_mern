@@ -3,6 +3,7 @@ import axios from "axios";
 import { getErrorAction } from "../utils/utils";
 import { HttpHeaders } from "../models/HttpHeaders";
 import { contentTypes } from '../constants/contentTypes'
+import { localStorageKeys } from "../constants/localStorageKeys";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -18,14 +19,14 @@ export const login = (email, password) => async (dispatch) => {
       payload: data
     });
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    localStorage.setItem(localStorageKeys.USER_INFO, JSON.stringify(data))
   } catch (error) {
       dispatch(getErrorAction(userActionTypes.userLogin.USER_LOGIN_FAIL, error))
   }
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('userInfo')
+  localStorage.removeItem(localStorageKeys.USER_INFO)
   dispatch({ type: userActionTypes.userLogin.USER_LOGOUT })
 }
 
@@ -46,7 +47,7 @@ export const register = (name, email, password) => async (dispatch) => {
       payload: data
     })
 
-    localStorage.setItem("userInfo", JSON.stringify(data))
+    localStorage.setItem(localStorageKeys.USER_INFO, JSON.stringify(data))
   } catch (error) {
     dispatch(getErrorAction(userActionTypes.userRegister.USER_REGISTER_FAIL, error))
   }
@@ -91,7 +92,7 @@ export const updateUserDetails = (user) => async(dispatch, getState) => {
         payload: data
       });
   
-      localStorage.setItem('userInfo', JSON.stringify(data))
+      localStorage.setItem(localStorageKeys.USER_INFO, JSON.stringify(data))
     }
   } catch (error) {
     dispatch(getErrorAction(userActionTypes.userDetails.USER_DETAILS_FAIL, error))
