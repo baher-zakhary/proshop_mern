@@ -8,7 +8,7 @@ export const addToCart = (id, quantity) => async (dispatch, getState) => {
     dispatch({
         type: cartActionTypes.CART_ADD_ITEM,
         payload: {
-            ... data,
+            ...data,
             quantity: quantity
         }
     })
@@ -32,4 +32,13 @@ export const saveShippingAddress = (formData) => (dispatch, getState) => {
     })
 
     localStorage.setItem(localStorageKeys.SHIPPING_ADDRESS, JSON.stringify(getState().cart.shippingAddress))
+}
+
+export const savePaymentMethod = (formData) => (dispatch, getState) => {
+    dispatch({
+        type: cartActionTypes.SAVE_PAYMENT_METHOD,
+        payload: formData
+    })
+
+    localStorage.setItem(localStorageKeys.PAYMENT_METHOD, JSON.stringify(getState().cart.paymentMethod))
 }

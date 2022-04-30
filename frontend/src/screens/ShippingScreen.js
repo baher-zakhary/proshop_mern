@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/Message";
-import Loader from "../components/Loader";
-import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
-import { useSearchParams } from "react-router-dom";
-import { cartActionTypes } from "../constants/actionTypes/cartActionTypes";
 import { saveShippingAddress } from "../actions/cartActions";
 import CheckoutSteps from '../components/CheckoutSteps'
 
@@ -20,7 +15,8 @@ const ShippingScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
     dispatch(saveShippingAddress({ address, city, postalCode, country }))
     navigate('/payment')
   }
@@ -74,7 +70,7 @@ const ShippingScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary'>
+        <Button type='submit' variant='primary' className="mt-3">
           Continue
         </Button>
       </Form>

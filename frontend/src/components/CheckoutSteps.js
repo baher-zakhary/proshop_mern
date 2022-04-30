@@ -58,7 +58,7 @@ const CheckoutSteps = ({ step }) => {
             {
                 step >= 4 ?
                 (
-                        <LinkContainer to='/placeorder'>
+                        <LinkContainer to='/place-order'>
                             <Nav.Link>Place Order</Nav.Link>
                         </LinkContainer>
                 )
