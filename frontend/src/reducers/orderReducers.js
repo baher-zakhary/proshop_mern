@@ -4,20 +4,45 @@ export const orderCreateReducer = (state = {}, action) => {
   switch (action.type) {
     case orderActionTypes.ORDER_CREATE_REQUEST:
       return {
-        loading: true
-      }
+        loading: true,
+      };
     case orderActionTypes.ORDER_CREATE_SUCCESS:
       return {
         loading: false,
         success: true,
-        order: action.payload
-      }
+        order: action.payload,
+      };
     case orderActionTypes.ORDER_CREATE_FAIL:
       return {
         loading: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
+
+export const orderDetailsReducer = (
+  state = { orderItems: [], shippingAddress: {} },
+  action
+) => {
+  switch (action.type) {
+    case orderActionTypes.ORDER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case orderActionTypes.ORDER_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        orderDetails: action.payload,
+      };
+    case orderActionTypes.ORDER_DETAILS_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};

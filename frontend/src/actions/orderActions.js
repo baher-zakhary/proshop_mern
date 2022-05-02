@@ -22,3 +22,20 @@ export const createOrder = (order) => async(dispatch, getState) => {
     dispatch(getErrorAction(orderActionTypes.ORDER_CREATE_FAIL, error))
   }
 }
+
+export const getOrderDetails = (orderId) => async(dispatch, getState) => {
+  try {
+    dispatch({type: orderActionTypes.ORDER_DETAILS_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const { data } = await axios.get(`/v1/api/orders/${orderId}`, httpHeaders)
+
+    dispatch({ type: orderActionTypes.ORDER_DETAILS_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch(getErrorAction(orderActionTypes.ORDER_DETAILS_FAIL, error))
+  }
+}
