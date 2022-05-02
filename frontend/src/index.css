@@ -19,3 +19,7 @@ h2 {
 .rating span {
   margin: 0.1rem;
 }
+
+ form > button.btn, label.form-label {
+  margin-top: 1rem;
+}
