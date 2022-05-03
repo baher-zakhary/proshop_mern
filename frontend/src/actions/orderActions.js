@@ -39,3 +39,20 @@ export const getOrderDetails = (orderId) => async(dispatch, getState) => {
     dispatch(getErrorAction(orderActionTypes.ORDER_DETAILS_FAIL, error))
   }
 }
+
+export const payOrder = (orderId, paymentResult) => async(dispatch, getState) => {
+  try {
+    dispatch({type: orderActionTypes.ORDER_PAY_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders()
+    httpHeaders.setContentType(contentTypes.APPLICATION_JSON)
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const data = await axios.put(`/v1/api/orders/${orderId}/pay`, paymentResult, httpHeaders)
+    dispatch({type: orderActionTypes.ORDER_PAY_SUCCESS, payload: data})
+  } catch (error) {
+    dispatch(getErrorAction(orderActionTypes.ORDER_PAY_FAIL, error))
+  }
+}

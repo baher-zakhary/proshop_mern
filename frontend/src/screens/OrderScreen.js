@@ -26,7 +26,7 @@ const OrderScreen = () => {
     if (!order || order._id !== orderId) {
       dispatch(getOrderDefails(orderId));
     }
-  }, [order, orderId]);
+  }, [dispatch, order, orderId]);
 
   return loading ? (
     <Loader />
