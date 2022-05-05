@@ -7,6 +7,7 @@ import productRoutes from './routes/productRoutes.js'
 import authRotes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import paypalRoutes from './routes/paypalRoutes.js'
 
 dotenv.config()
 
@@ -27,6 +28,8 @@ app.use('/v1/api/users', userRoutes)
 app.use('/v1/api/products', productRoutes)
 
 app.use('/v1/api/orders', orderRoutes)
+
+app.use('/v1/api/paypal', paypalRoutes)
 
 app.use(notFound)
 
