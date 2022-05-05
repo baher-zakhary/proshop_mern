@@ -63,7 +63,7 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, order, orderId, addPaypalScript, orderPaySuccess]);
+  }, [dispatch, order, orderId, orderPaySuccess]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult))

@@ -31,7 +31,7 @@ export const getOrderDetails = (orderId) => async(dispatch, getState) => {
 
     const httpHeaders = new HttpHeaders();
     httpHeaders.setBearerToken(userInfo.token)
-
+    debugger
     const { data } = await axios.get(`/v1/api/orders/${orderId}`, httpHeaders)
 
     dispatch({ type: orderActionTypes.ORDER_DETAILS_SUCCESS, payload: data })
@@ -54,5 +54,21 @@ export const payOrder = (orderId, paymentResult) => async(dispatch, getState) =>
     dispatch({type: orderActionTypes.ORDER_PAY_SUCCESS, payload: data})
   } catch (error) {
     dispatch(getErrorAction(orderActionTypes.ORDER_PAY_FAIL, error))
+  }
+}
+
+export const listMyOrders = () => async(dispatch, getState) => {
+  try {
+    dispatch({type: orderActionTypes.LIST_MY_ORDERS_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders()
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const { data } = await axios.get(`/v1/api/orders/myorders`, httpHeaders)
+    dispatch({type: orderActionTypes.LIST_MY_ORDERS_SUCCESS, payload: data})
+  } catch (error) {
+    dispatch(getErrorAction(orderActionTypes.LIST_MY_ORDERS_FAIL, error))
   }
 }
