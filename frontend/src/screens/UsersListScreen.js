@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -9,10 +10,16 @@ import { listUsers } from "../actions/userActions";
 const UsersListScreen = () => {
   const dispatch = useDispatch();
   const { loading, error, users } = useSelector((state) => state.userList);
+  const userLoginState = useSelector(state => state.userLogin)
+  const navigate = useNavigate()
 
   useEffect(() => {
-    dispatch(listUsers());
-  }, [dispatch]);
+    if (userLoginState.userInfo && userLoginState.userInfo.isAdmin) {
+      dispatch(listUsers());
+    } else {
+      navigate('/login')
+    }
+  }, [dispatch, navigate, userLoginState]);
 
   const deleteHandler = (id) => {
 

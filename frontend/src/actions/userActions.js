@@ -4,7 +4,6 @@ import { getErrorAction } from "../utils/utils";
 import { HttpHeaders } from "../models/HttpHeaders";
 import { contentTypes } from '../constants/contentTypes'
 import { localStorageKeys } from "../constants/localStorageKeys";
-import { ProductActionTypes } from "../constants/actionTypes/productActionTypes";
 import { listProducts } from "./productActions";
 
 export const login = (email, password) => async (dispatch) => {
