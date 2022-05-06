@@ -4,6 +4,8 @@ import { getErrorAction } from "../utils/utils";
 import { HttpHeaders } from "../models/HttpHeaders";
 import { contentTypes } from '../constants/contentTypes'
 import { localStorageKeys } from "../constants/localStorageKeys";
+import { ProductActionTypes } from "../constants/actionTypes/productActionTypes";
+import { listProducts } from "./productActions";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -28,6 +30,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem(localStorageKeys.USER_INFO)
   dispatch({ type: userActionTypes.userLogin.USER_LOGOUT })
+  dispatch(listProducts())
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -96,5 +99,22 @@ export const updateUserDetails = (user) => async(dispatch, getState) => {
     }
   } catch (error) {
     dispatch(getErrorAction(userActionTypes.userDetails.USER_DETAILS_FAIL, error))
+  }
+}
+
+export const listUsers = () => async(dispatch, getState) => {
+  try {
+    dispatch({type: userActionTypes.userList.USER_LIST_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const { data } = await axios.get(`/v1/api/users`, httpHeaders)
+
+    dispatch({ type: userActionTypes.userList.USER_LIST_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch(getErrorAction(userActionTypes.userList.USER_LIST_FAIL, error))
   }
 }

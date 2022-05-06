@@ -9,6 +9,7 @@ import {
 import { cartReducer } from "./reducers/cartReducers";
 import {
   userDetailsReducer,
+  userListReducer,
   userLoginReducer,
   userRegisterReducer,
 } from "./reducers/userReducers";
@@ -28,10 +29,11 @@ const appReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  userList: userListReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
-  listMyOrders: listMyOrdersReducer,
+  listMyOrders: listMyOrdersReducer
 });
 
 const rootReducer = (state, action) => {
