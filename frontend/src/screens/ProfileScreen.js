@@ -37,11 +37,7 @@ const ProfileScreen = () => {
   );
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const {
-    loading: listMyOrdersLoading,
-    error: listMyOrdersError,
-    orders: myOrders,
-  } = useSelector((state) => state.listMyOrders);
+  const listMyOrdersState = useSelector((state) => state.listMyOrders);
 
   useEffect(() => {
     if (!userInfo) {
@@ -119,10 +115,10 @@ const ProfileScreen = () => {
       </Col>
       <Col md={9}>
         <h2>My orders</h2>
-        {listMyOrdersLoading ? (
+        {listMyOrdersState.loading ? (
           <Loader />
-        ) : listMyOrdersError ? (
-          <Message variant="danger">{listMyOrdersError}</Message>
+        ) : listMyOrdersState.error ? (
+          <Message variant="danger">{listMyOrdersState.error}</Message>
         ) : (
           <Table striped bordered hover responsive className="table-sm">
             <thead>
@@ -136,7 +132,7 @@ const ProfileScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {myOrders.map((order) => (
+              {listMyOrdersState.orders.map((order) => (
                 <tr key={order._id}>
                   <td>{order._id}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
