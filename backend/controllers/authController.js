@@ -11,7 +11,7 @@ export const authUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email })
     if (user && await user.matchPassword(password)) {
         const userDto = new UserDto(user)
-        userDto.token = generateToken(user._id)
+        userDto.token = generateToken(user._id, user.isAdmin)
         res.json(userDto)
     } else {
         res.status(401)
