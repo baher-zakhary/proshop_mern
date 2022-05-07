@@ -127,9 +127,9 @@ export const deleteUser = (id) => async(dispatch, getState) => {
     const httpHeaders = new HttpHeaders();
     httpHeaders.setBearerToken(userInfo.token)
 
-    const { data } = await axios.delete(`/v1/api/users/${id}`, httpHeaders)
+    await axios.delete(`/v1/api/users/${id}`, httpHeaders)
 
-    dispatch({ type: userActionTypes.userDelete.USER_DELETE_SUCCESS, payload: data })
+    dispatch({ type: userActionTypes.userDelete.USER_DELETE_SUCCESS })
   } catch (error) {
     dispatch(getErrorAction(userActionTypes.userDelete.USER_DELETE_FAIL, error))
   }
