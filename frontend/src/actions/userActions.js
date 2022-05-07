@@ -74,7 +74,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   }
 }
 
-export const updateUserDetails = (user) => async(dispatch, getState) => {
+export const updateUserDetails = (id, userDetails) => async(dispatch, getState) => {
   try {
     dispatch({type: userActionTypes.userDetails.USER_DETAILS_REQUEST})
 
@@ -84,7 +84,7 @@ export const updateUserDetails = (user) => async(dispatch, getState) => {
     httpHeaders.setContentType(contentTypes.APPLICATION_JSON)
     httpHeaders.setBearerToken(userInfo.token)
 
-    const { data } = await axios.put(`/v1/api/users`, user, httpHeaders)
+    const { data } = await axios.put(`/v1/api/users/${id}`, userDetails, httpHeaders)
 
     dispatch({ type: userActionTypes.userDetails.USER_DETAILS_UPDATE_SUCCESS, payload: data })
 
@@ -115,5 +115,22 @@ export const listUsers = () => async(dispatch, getState) => {
     dispatch({ type: userActionTypes.userList.USER_LIST_SUCCESS, payload: data })
   } catch (error) {
     dispatch(getErrorAction(userActionTypes.userList.USER_LIST_FAIL, error))
+  }
+}
+
+export const deleteUser = (id) => async(dispatch, getState) => {
+  try {
+    dispatch({type: userActionTypes.userDelete.USER_DELETE_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const { data } = await axios.delete(`/v1/api/users/${id}`, httpHeaders)
+
+    dispatch({ type: userActionTypes.userDelete.USER_DELETE_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch(getErrorAction(userActionTypes.userDelete.USER_DELETE_FAIL, error))
   }
 }

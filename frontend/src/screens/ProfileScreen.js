@@ -28,7 +28,7 @@ const ProfileScreen = () => {
         password,
         _id: userInfo._id,
       };
-      dispatch(updateUserDetails(upadatedUser));
+      dispatch(updateUserDetails(userInfo._id, upadatedUser));
     }
   };
   const dispatch = useDispatch();

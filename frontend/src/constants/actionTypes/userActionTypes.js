@@ -20,5 +20,10 @@ export const userActionTypes = {
         USER_LIST_REQUEST: 'USER_LIST_REQUEST',
         USER_LIST_SUCCESS: 'USER_LIST_SUCCESS',
         USER_LIST_FAIL: 'USER_LIST_FAIL'
+    },
+    userDelete: {
+        USER_DELETE_REQUEST: 'USER_DELETE_REQUEST',
+        USER_DELETE_SUCCESS: 'USER_DELETE_SUCCESS',
+        USER_DELETE_FAIL: 'USER_DELETE_FAIL'
     }
 }

@@ -49,14 +49,15 @@ export const registerUser = asyncHandler(async (req, res) => {
 })
 
 // @desc Update user
-// @route PUT v1/api/users
+// @route PUT v1/api/users/:id
 // @access Private
 export const updateUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.body._id)
+    const user = await User.findById(req.params.id)
 
     if (user) {
         user.name = req.body.name || user.name
         user.email = req.body.email || user.email
+        user.isAdmin = req.body.isAdmin
         if (req.body.password) {
             user.password = req.body.password
         }
@@ -76,4 +77,21 @@ export const updateUser = asyncHandler(async (req, res) => {
 export const getUsers = asyncHandler(async (req, res) => {
     const users = await User.find({}, {fields: { password: 0 }});
     res.json(users)
+})
+
+// @desc    Delete user
+// @route   DELETE v1/api/users/:id
+// @access  Private/Admin
+export const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        await user.delete()
+        res.json({
+            message: 'User removed'
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
 })
