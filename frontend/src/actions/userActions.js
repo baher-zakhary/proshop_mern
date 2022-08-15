@@ -134,3 +134,22 @@ export const deleteUser = (id) => async(dispatch, getState) => {
     dispatch(getErrorAction(userActionTypes.userDelete.USER_DELETE_FAIL, error))
   }
 }
+
+export const updateUser = (user) => async(dispatch, getState) => {
+  try {
+    dispatch({type: userActionTypes.userUpdate.USER_UPDATE_REQUEST})
+
+    const {userLogin: {userInfo}} = getState()
+
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.setContentType(contentTypes.APPLICATION_JSON);
+    httpHeaders.setBearerToken(userInfo.token)
+
+    const { data } = await axios.put(`/v1/api/users/${user.id}`, user, httpHeaders)
+
+    dispatch({ type: userActionTypes.userUpdate.USER_UPDATE_SUCCESS })
+    dispatch({ type: userActionTypes.userDetails.USER_DETAILS_SUCCESS, payload: data })
+  } catch (error) {
+    dispatch(getErrorAction(userActionTypes.userUpdate.USER_UPDATE_FAIL, error))
+  }
+}

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Form, Button, FormGroup } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { register } from "../actions/userActions";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUser } from "../actions/userActions";
+import { userActionTypes } from '../constants/actionTypes/userActionTypes';
 
 const EditUserScreen = () => {
   const { id: userId } = useParams();
@@ -15,24 +15,31 @@ const EditUserScreen = () => {
   const [email, setEmail] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const navigate = useNavigate();
-
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(updateUser({ id: userId, name, email, isAdmin }))
   };
 
+  const userDetails = useSelector(state => state.userDetails)
+  const userUpdate = useSelector(state => state.userUpdate)
+
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.userDetails);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user.name || user._id !== userId) {
-      dispatch(getUserDetails(userId))
+    if (userUpdate && userUpdate?.success) {
+      dispatch({type: userActionTypes.userUpdate.USER_UPDATE_RESET})
+      navigate('/admin/userlist')
     } else {
-      setName(user.name)
-      setEmail(user.email)
-      setIsAdmin(user.isAdmin)
+      if (!userDetails?.user.name || userDetails?.user._id !== userId) {
+        dispatch(getUserDetails(userId))
+      } else {
+        setName(userDetails?.user.name)
+        setEmail(userDetails?.user.email)
+        setIsAdmin(userDetails?.user.isAdmin)
+      }
     }
-  }, [dispatch, userId, user]);
+  }, [dispatch, userId, navigate, userDetails?.user, userUpdate, userUpdate?.success]);
 
   return (
     <>
@@ -40,11 +47,13 @@ const EditUserScreen = () => {
         Go Back
       </Link>
       <FormContainer>
+        {userUpdate?.loading && <Loader />}
+        {userUpdate?.error && <Message variant='danger'>{userUpdate?.error}</Message>}
         <h1>Edit User</h1>
-        {loading ? (
+        {userDetails?.loading ? (
           <Loader />
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
+        ) : userDetails?.error ? (
+          <Message variant="danger">{userDetails?.error}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
