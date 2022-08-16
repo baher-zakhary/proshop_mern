@@ -1,6 +1,7 @@
-import { ProductActionTypes, ProductDetailsActionTypes } from "../constants/actionTypes/productActionTypes";
+import { ProductActionTypes, ProductDeleteActionTypes, ProductDetailsActionTypes } from "../constants/actionTypes/productActionTypes";
 import axios from 'axios'
 import { getErrorAction } from "../utils/utils";
+import { HttpHeaders } from "../models/HttpHeaders";
 
 export const listProducts = () => async (dispatch) => {
     try {
@@ -28,3 +29,19 @@ export const listProductDetails = (productId) => async (dispatch) => {
         dispatch(getErrorAction(ProductDetailsActionTypes.PRODUCT_DETAILS_FAIL, error))
     }
 }
+
+export const deleteProduct = (id) => async(dispatch, getState) => {
+    try {
+      dispatch({type: ProductDeleteActionTypes.PRODUCT_DELETE_REQUEST})
+  
+      const {userLogin: {userInfo}} = getState()
+  
+      const httpHeaders = new HttpHeaders()
+      httpHeaders.setBearerToken(userInfo.token)
+  
+      await axios.delete(`/v1/api/products/${id}`, httpHeaders)
+      dispatch({type: ProductDeleteActionTypes.PRODUCT_DELETE_SUCCESS})
+    } catch (error) {
+      dispatch(getErrorAction(ProductDeleteActionTypes.PRODUCT_DELETE_FAIL, error))
+    }
+  }

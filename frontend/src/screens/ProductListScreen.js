@@ -5,11 +5,12 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listProducts } from "../actions/productActions";
+import { listProducts, deleteProduct } from "../actions/productActions";
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();
-  const { loading, error, products } = useSelector((state) => state.productList);
+  const productList = useSelector((state) => state.productList);
+  const productDelete = useSelector((state) => state.productDelete);
   const userLoginState = useSelector(state => state.userLogin)
   const navigate = useNavigate()
 
@@ -19,11 +20,11 @@ const ProductListScreen = () => {
     } else {
       navigate('/login')
     }
-  }, [dispatch, navigate, userLoginState]);
+  }, [dispatch, navigate, userLoginState, productDelete, productDelete?.success]);
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
-      //TODO: delete product
+      dispatch(deleteProduct(id))
     }
   }
 
@@ -43,11 +44,12 @@ const ProductListScreen = () => {
           </Button>
         </Col>
       </Row>
-      
-      {loading ? (
+      {productDelete?.loading && <Loader />}
+      {productDelete?.error && <Message variant='Danger'>{productDelete?.error}</Message>}
+      {productList?.loading ? (
         <Loader />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
+      ) : productList?.error ? (
+        <Message variant="danger">{productList?.error}</Message>
       ) : (
         <Table striped bordered hover responsive className="table-sm">
           <thead>
@@ -61,7 +63,7 @@ const ProductListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {productList?.products.map((product) => (
               <tr key={product._id}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
