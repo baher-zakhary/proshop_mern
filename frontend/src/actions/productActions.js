@@ -2,11 +2,13 @@ import {
     ProductActionTypes,
     ProductCreateActionTypes,
     ProductDeleteActionTypes,
-    ProductDetailsActionTypes
+    ProductDetailsActionTypes,
+    ProductUpdateActionTypes
 } from "../constants/actionTypes/productActionTypes";
 import axios from 'axios'
 import { getErrorAction } from "../utils/utils";
 import { HttpHeaders } from "../models/HttpHeaders";
+import { contentTypes } from "../constants/contentTypes";
 
 export const listProducts = () => async (dispatch) => {
     try {
@@ -51,7 +53,7 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
     }
   }
 
-export const createProduct = () => async(dispatch, getState) => {
+  export const createProduct = () => async(dispatch, getState) => {
     try {
       dispatch({type: ProductCreateActionTypes.PRODUCT_CREATE_REQUEST})
   
@@ -67,5 +69,25 @@ export const createProduct = () => async(dispatch, getState) => {
       });
     } catch (error) {
       dispatch(getErrorAction(ProductCreateActionTypes.PRODUCT_CREATE_FAIL, error))
+    }
+  }
+
+  export const updateProduct = (product) => async(dispatch, getState) => {
+    try {
+      dispatch({type: ProductUpdateActionTypes.PRODUCT_UPDATE_REQUEST})
+  
+      const {userLogin: {userInfo}} = getState()
+  
+      const httpHeaders = new HttpHeaders()
+      httpHeaders.setContentType(contentTypes.APPLICATION_JSON);
+      httpHeaders.setBearerToken(userInfo.token)
+  
+      const data = await axios.put(`/v1/api/products/${product._id}`, product, httpHeaders)
+      dispatch({
+        type: ProductUpdateActionTypes.PRODUCT_UPDATE_SUCCESS,
+        payload: data
+      });
+    } catch (error) {
+      dispatch(getErrorAction(ProductUpdateActionTypes.PRODUCT_UPDATE_FAIL, error))
     }
   }

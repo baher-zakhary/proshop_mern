@@ -62,7 +62,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 export const updateProduct = asyncHandler(async (req, res) => {
-    const {name, price, description, image, brand, cateogory, countInStock} = req.body
+    const {name, price, description, image, brand, category, countInStock} = req.body
 
     const product = await Product.findById(req.params.id)
 
@@ -72,7 +72,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
         product.description = description;
         product.image = image;
         product.brand = brand;
-        product.cateogory = cateogory;
+        product.category = category;
         product.countInStock = countInStock;
 
         const updatedProduct = await product.save();

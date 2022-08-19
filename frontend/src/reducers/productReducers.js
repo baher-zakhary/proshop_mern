@@ -1,7 +1,8 @@
 import { ProductActionTypes,
     ProductDetailsActionTypes,
     ProductDeleteActionTypes,
-    ProductCreateActionTypes
+    ProductCreateActionTypes,
+    ProductUpdateActionTypes
 } from "../constants/actionTypes/productActionTypes";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -30,7 +31,7 @@ export const productDetailsReducer = (state = { product: { reviews: [] } }, acti
     }
 }
 
-export const productDeleteReducer = (state = { product: { reviews: [] } }, action) => {
+export const productDeleteReducer = (state = {}, action) => {
     switch (action.type) {
         case ProductDeleteActionTypes.PRODUCT_DELETE_REQUEST:
             return { loading: true }
@@ -43,7 +44,7 @@ export const productDeleteReducer = (state = { product: { reviews: [] } }, actio
     }
 }
 
-export const productCreateReducer = (state = { product: { reviews: [] } }, action) => {
+export const productCreateReducer = (state = {}, action) => {
     switch (action.type) {
         case ProductCreateActionTypes.PRODUCT_CREATE_REQUEST:
             return { loading: true }
@@ -52,6 +53,21 @@ export const productCreateReducer = (state = { product: { reviews: [] } }, actio
         case ProductCreateActionTypes.PRODUCT_CREATE_FAIL:
             return { loading: false, error: action.payload }
         case ProductCreateActionTypes.PRODUCT_CREATE_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
+
+export const productUpdateReducer = (state = { product: {} }, action) => {
+    switch (action.type) {
+        case ProductUpdateActionTypes.PRODUCT_UPDATE_REQUEST:
+            return { loading: true }
+        case ProductUpdateActionTypes.PRODUCT_UPDATE_SUCCESS:
+            return { loading: false, success: true, product: action.payload.data }
+        case ProductUpdateActionTypes.PRODUCT_UPDATE_FAIL:
+            return { loading: false, error: action.payload }
+        case ProductUpdateActionTypes.PRODUCT_UPDATE_RESET:
             return {}
         default:
             return state;
