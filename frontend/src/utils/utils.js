@@ -6,3 +6,9 @@ export const getErrorAction = (type, error) => {
                 : error.message
     }
 }
+
+export const Utils = {
+    copy: (val) => {
+        return JSON.parse(JSON.stringify(val));
+    }
+};

@@ -1,4 +1,8 @@
-import { ProductActionTypes, ProductDetailsActionTypes, ProductDeleteActionTypes } from "../constants/actionTypes/productActionTypes";
+import { ProductActionTypes,
+    ProductDetailsActionTypes,
+    ProductDeleteActionTypes,
+    ProductCreateActionTypes
+} from "../constants/actionTypes/productActionTypes";
 
 export const productListReducer = (state = { products: [] }, action) => {
     switch (action.type) {
@@ -29,11 +33,26 @@ export const productDetailsReducer = (state = { product: { reviews: [] } }, acti
 export const productDeleteReducer = (state = { product: { reviews: [] } }, action) => {
     switch (action.type) {
         case ProductDeleteActionTypes.PRODUCT_DELETE_REQUEST:
-            return { loading: true, ...state }
+            return { loading: true }
         case ProductDeleteActionTypes.PRODUCT_DELETE_SUCCESS:
             return { loading: false, success: true }
         case ProductDeleteActionTypes.PRODUCT_DELETE_FAIL:
             return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
+export const productCreateReducer = (state = { product: { reviews: [] } }, action) => {
+    switch (action.type) {
+        case ProductCreateActionTypes.PRODUCT_CREATE_REQUEST:
+            return { loading: true }
+        case ProductCreateActionTypes.PRODUCT_CREATE_SUCCESS:
+            return { loading: false, success: true, product: action.payload.data }
+        case ProductCreateActionTypes.PRODUCT_CREATE_FAIL:
+            return { loading: false, error: action.payload }
+        case ProductCreateActionTypes.PRODUCT_CREATE_RESET:
+            return {}
         default:
             return state;
     }
