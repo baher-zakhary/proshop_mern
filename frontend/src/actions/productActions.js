@@ -1,6 +1,7 @@
 import {
     ProductActionTypes,
     ProductCreateActionTypes,
+    ProductCreateReviewActionTypes,
     ProductDeleteActionTypes,
     ProductDetailsActionTypes,
     ProductUpdateActionTypes
@@ -29,9 +30,9 @@ export const listProductDetails = (productId) => async (dispatch) => {
     try {
         dispatch({type: ProductDetailsActionTypes.PRODUCT_DETAILS_REQUEST})
 
-        const response = await axios.get(`/v1/api/products/${productId}`)
+        const { data } = await axios.get(`/v1/api/products/${productId}`)
 
-        dispatch({type: ProductDetailsActionTypes.PRODUCT_DETAILS_SUCCESS, payload: response.data})
+        dispatch({type: ProductDetailsActionTypes.PRODUCT_DETAILS_SUCCESS, payload: data})
     } catch (error) {
         dispatch(getErrorAction(ProductDetailsActionTypes.PRODUCT_DETAILS_FAIL, error))
     }
@@ -62,7 +63,7 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
       const httpHeaders = new HttpHeaders()
       httpHeaders.setBearerToken(userInfo.token)
   
-      const data = await axios.post(`/v1/api/products`, {}, httpHeaders)
+      const { data } = await axios.post(`/v1/api/products`, {}, httpHeaders)
       dispatch({
         type: ProductCreateActionTypes.PRODUCT_CREATE_SUCCESS,
         payload: data
@@ -82,7 +83,7 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
       httpHeaders.setContentType(contentTypes.APPLICATION_JSON);
       httpHeaders.setBearerToken(userInfo.token)
   
-      const data = await axios.put(`/v1/api/products/${product._id}`, product, httpHeaders)
+      const { data } = await axios.put(`/v1/api/products/${product._id}`, product, httpHeaders)
       dispatch({
         type: ProductUpdateActionTypes.PRODUCT_UPDATE_SUCCESS,
         payload: data

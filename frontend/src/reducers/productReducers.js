@@ -49,7 +49,7 @@ export const productCreateReducer = (state = {}, action) => {
         case ProductCreateActionTypes.PRODUCT_CREATE_REQUEST:
             return { loading: true }
         case ProductCreateActionTypes.PRODUCT_CREATE_SUCCESS:
-            return { loading: false, success: true, product: action.payload.data }
+            return { loading: false, success: true, product: action.payload }
         case ProductCreateActionTypes.PRODUCT_CREATE_FAIL:
             return { loading: false, error: action.payload }
         case ProductCreateActionTypes.PRODUCT_CREATE_RESET:
@@ -64,7 +64,7 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
         case ProductUpdateActionTypes.PRODUCT_UPDATE_REQUEST:
             return { loading: true }
         case ProductUpdateActionTypes.PRODUCT_UPDATE_SUCCESS:
-            return { loading: false, success: true, product: action.payload.data }
+            return { loading: false, success: true, product: action.payload }
         case ProductUpdateActionTypes.PRODUCT_UPDATE_FAIL:
             return { loading: false, error: action.payload }
         case ProductUpdateActionTypes.PRODUCT_UPDATE_RESET:
