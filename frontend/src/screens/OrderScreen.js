@@ -24,7 +24,7 @@ const OrderScreen = () => {
     (state) => state.orderPay
   );
 
-  if (!loading) {
+  if (!loading && order.orderItems) {
     order.itemsPrice = addDecimals(
       order.orderItems.reduce(
         (acc, item) => acc + item.price * item.quantity,
