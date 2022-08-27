@@ -92,3 +92,21 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
       dispatch(getErrorAction(ProductUpdateActionTypes.PRODUCT_UPDATE_FAIL, error))
     }
   }
+
+  export const createProductReview = (productId, review) => async(dispatch, getState) => {
+    try {
+      dispatch({type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_REQUEST})
+  
+      const {userLogin: {userInfo}} = getState()
+  
+      const httpHeaders = new HttpHeaders()
+      httpHeaders.setContentType(contentTypes.APPLICATION_JSON);
+      httpHeaders.setBearerToken(userInfo.token)
+  
+      await axios.post(`/v1/api/products/${productId}/reviews`, review, httpHeaders)
+
+      dispatch({type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_SUCCESS});
+    } catch (error) {
+      dispatch(getErrorAction(ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_FAIL, error))
+    }
+  }
