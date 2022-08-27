@@ -1,4 +1,5 @@
 import Product from '../models/productModel.js'
+import User from '../models/userModel.js'
 import asyncHandler from "express-async-handler";
 
 // @desc    Fetch all products
@@ -100,8 +101,8 @@ export const createProductReview = asyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('Product already reviewed');
         }
-
-        const user = User.findById(req.userId);
+        
+        const user = await User.findById(req.userId);
         const review = {
             name: user.name,
             rating: Number(rating),
@@ -111,7 +112,7 @@ export const createProductReview = asyncHandler(async (req, res) => {
 
         product.reviews.push(review);
         product.numReviews = product.reviews.length;
-        product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / products.reviews.length;
+        product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
 
         await product.save();
         res.status(201).json({ message: 'Review added' })

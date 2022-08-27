@@ -10,7 +10,7 @@ const reviewSchema = mongoose.Schema({
         ref: 'User'
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 export default reviewSchema
