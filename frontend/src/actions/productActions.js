@@ -11,11 +11,11 @@ import { getErrorAction } from "../utils/utils";
 import { HttpHeaders } from "../models/HttpHeaders";
 import { contentTypes } from "../constants/contentTypes";
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (searchKeyword = '') => async (dispatch) => {
     try {
         dispatch({type: ProductActionTypes.PRODUCT_LIST_REQUEST})
 
-        const { data } = await axios.get('/v1/api/products')
+        const { data } = await axios.get(`/v1/api/products?keyword=${searchKeyword}`)
 
         dispatch({
             type: ProductActionTypes.PRODUCT_LIST_SUCCESS,

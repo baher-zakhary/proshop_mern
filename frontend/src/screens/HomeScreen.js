@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
@@ -9,14 +10,15 @@ import Loader from "../components/Loader";
 const HomeScreen = () => {
   const dispatch = useDispatch();
 
+  const { searchStr } = useParams();
   const productList = useSelector((state) => state.productList);
 
   const { loading, products, error } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(listProducts(searchStr));
 
-  }, [dispatch]);
+  }, [dispatch, searchStr]);
 
   return (
     <>
