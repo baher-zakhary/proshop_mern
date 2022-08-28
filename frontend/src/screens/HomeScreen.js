@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
@@ -8,6 +9,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 import ProductCarousel from "../components/ProductCarousel";
+import Meta from "../components/Meta";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta></Meta>
       <h1>{!searchStr ? 'Latest Products' : `Search results for keyword "${searchStr}"`}</h1>
       {loading ? (
         <Loader />
