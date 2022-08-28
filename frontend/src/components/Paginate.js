@@ -2,8 +2,17 @@ import React from 'react'
 import { Container, Pagination, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-const Paginate = ({ pages, pageNumber, baseRoute = '', keyword = '' }) => {
-  console.log('pageNubmer',pageNumber)
+const Paginate = ({ pages, pageNumber, pageSize = 10, total, baseRoute = '', keyword = '' }) => {
+
+  const getFirstElementNo = () => {
+    return ((pageNumber-1) * pageSize) + 1;
+  }
+
+  const getLastElementNo = () => {
+    const lastElementNo = pageNumber * pageSize;
+    return lastElementNo < total ? lastElementNo : total;
+  }
+
   return (
     // (pages > 1) && (
       <Container fluid>
@@ -15,7 +24,7 @@ const Paginate = ({ pages, pageNumber, baseRoute = '', keyword = '' }) => {
               </LinkContainer>
             ))}
           </Pagination>
-          <div>{`Showing ${pageNumber} - ${(pageNumber)*10} of ${pages}`}</div>
+          <div>{`Showing ${getFirstElementNo()} - ${getLastElementNo()} of ${total}`}</div>
         </Row>
       </Container>
     // )

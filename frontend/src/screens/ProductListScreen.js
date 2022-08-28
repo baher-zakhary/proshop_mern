@@ -102,7 +102,11 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate baseRoute={'/admin/productlist'} pages={productList?.pages} pageNumber={productList?.pageNumber}>
+          <Paginate baseRoute={'/admin/productlist'}
+            pages={productList?.pages}
+            pageNumber={productList?.pageNumber}
+            total={productList?.total}
+          >
 
           </Paginate>
         </>

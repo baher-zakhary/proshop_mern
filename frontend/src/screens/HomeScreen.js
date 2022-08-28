@@ -17,7 +17,7 @@ const HomeScreen = () => {
 
   const productList = useSelector((state) => state.productList);
 
-  const { loading, products, error, pageNumber, pages } = productList;
+  const { loading, products, error, pageNumber, pages, total } = productList;
 
   useEffect(() => {
     dispatch(listProducts(searchStr, pageNumberParam));
@@ -40,7 +40,12 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          <Paginate pages={pages} pageNumber={pageNumber} keyword={searchStr ? searchStr : ''} />
+          <Paginate
+            pages={pages}
+            pageNumber={pageNumber}
+            total={total}
+            keyword={searchStr ? searchStr : ''}
+          />
         </>
       )}
     </>

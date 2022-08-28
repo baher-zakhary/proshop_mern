@@ -6,8 +6,8 @@ import asyncHandler from "express-async-handler";
 // @route   GET v1/api/products
 // @access  Public
 export const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 10;
     const pageNumber = Number(req.query.pageNumber) || 1;
+    const pageSize = Number(req.query.pageSize) || 10;
     const filterQuery = req.query.keyword ? {
         name: {
             $regex: req.query.keyword,
@@ -15,12 +15,12 @@ export const getProducts = asyncHandler(async (req, res) => {
         }
     } : {};
 
-    const totalCount = await Product.countDocuments(filterQuery);
+    const total = await Product.countDocuments(filterQuery);
     const products = await Product
                             .find(filterQuery)
                             .skip(pageSize * (pageNumber - 1))
                             .limit(pageSize);
-    res.json({products, pageNumber, pages: Math.ceil(totalCount / pageSize)})
+    res.json({products, pageNumber, pages: Math.ceil(total / pageSize), total})
 })
 
 // @desc    Fetch a product by Id
