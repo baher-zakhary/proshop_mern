@@ -4,7 +4,8 @@ import {
     ProductCreateReviewActionTypes,
     ProductDeleteActionTypes,
     ProductDetailsActionTypes,
-    ProductUpdateActionTypes
+    ProductUpdateActionTypes,
+    TopProductsActionTypes
 } from "../constants/actionTypes/productActionTypes";
 import axios from 'axios'
 import { getErrorAction } from "../utils/utils";
@@ -110,3 +111,18 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
       dispatch(getErrorAction(ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_FAIL, error))
     }
   }
+
+  export const listTopProducts = () => async (dispatch) => {
+    try {
+        dispatch({type: TopProductsActionTypes.TOP_PRODUCTS_REQUEST})
+
+        const { data } = await axios.get(`/v1/api/products/top`)
+
+        dispatch({
+            type: TopProductsActionTypes.TOP_PRODUCTS_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch(getErrorAction(TopProductsActionTypes.TOP_PRODUCTS_FAIL, error))
+    }
+}

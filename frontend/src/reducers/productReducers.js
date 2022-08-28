@@ -3,7 +3,8 @@ import { ProductActionTypes,
     ProductDeleteActionTypes,
     ProductCreateActionTypes,
     ProductUpdateActionTypes,
-    ProductCreateReviewActionTypes
+    ProductCreateReviewActionTypes,
+    TopProductsActionTypes
 } from "../constants/actionTypes/productActionTypes";
 
 export const productListReducer = (state = { products: [] }, action) => {
@@ -91,6 +92,19 @@ export const productCreateReviewReducer = (state = { }, action) => {
             return { loading: false, error: action.payload }
         case ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_RESET:
             return {}
+        default:
+            return state;
+    }
+}
+
+export const topProductsReducer = (state = { products: [] }, action) => {
+    switch (action.type) {
+        case TopProductsActionTypes.TOP_PRODUCTS_REQUEST:
+            return { loading: true, products: [] }
+        case TopProductsActionTypes.TOP_PRODUCTS_SUCCESS:
+            return { loading: false, products: action.payload }
+        case TopProductsActionTypes.TOP_PRODUCTS_FAIL:
+            return { loading: false, error: action.payload }
         default:
             return state;
     }

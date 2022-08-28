@@ -1,8 +1,19 @@
 import express from "express";
-import { getProducts, getProductById, deleteProduct, createProduct, updateProduct, createProductReview } from "../controllers/productController.js";
+import {
+  getProducts,
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct,
+  createProductReview,
+  getTopProducts
+} from "../controllers/productController.js";
 import { protect, adminOnly } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+
+router.route("/top")
+  .get(getTopProducts)
 
 router.route("/")
   .get(getProducts)
