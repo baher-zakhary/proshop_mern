@@ -1,5 +1,7 @@
 # Proshop MERN
 
+Live Demo: https://baher-proshop-app.herokuapp.com/
+
 An eCommerce platform built from scratch with the MERN stack (React, Redux, Express & MongoDB)
 
 # This project contains:
