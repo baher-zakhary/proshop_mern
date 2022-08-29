@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import { UserDto } from '../dtos/UserDto.js';
 import User from '../models/userModel.js'
 import { generateToken } from '../utils/authUtils.js';
+import { Utils } from '../utils/utils.js';
 
 // @desc    Get user by id
 // @route   GET v1/api/users/:id
@@ -57,7 +58,13 @@ export const updateUser = asyncHandler(async (req, res) => {
     if (user) {
         user.name = req.body.name || user.name
         user.email = req.body.email || user.email
-        user.isAdmin = req.body.isAdmin
+        if (Utils.isDefined(req.body.isAdmin)) {
+            user.isAdmin = req.body.isAdmin;
+        } else if (Utils.isDefined(user.isAdmin)) {
+            user.isAdmin = user.isAdmin;
+        } else {
+            user.isAdmin = false;
+        }
         if (req.body.password) {
             user.password = req.body.password
         }
