@@ -112,3 +112,6 @@ dist
 
 # Uploads folder
 uploads/
+
+# Build folder
+build/

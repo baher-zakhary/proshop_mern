@@ -24,10 +24,6 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('API is running ...')
-})
-
 app.use('/v1/api/auth', authRotes)
 app.use('/v1/api/users', userRoutes)
 app.use('/v1/api/products', productRoutes)
@@ -35,12 +31,31 @@ app.use('/v1/api/orders', orderRoutes)
 app.use('/v1/api/paypal', paypalRoutes)
 app.use('/v1/api/upload', uploadRoutes)
 
+
 // __dirname not available if we use ES Modules it is only available if we use Common JS
 // in ES modules we can mimic __dirname like this
 const __dirname = path.resolve();
 
 // Make upload folder static so it can be accessed from the browser
 app.use('/uploads', express.static(path.join(__dirname, process.env.UPLOAD_URL)))
+
+if (process.env.NODE_ENV === 'production') {
+
+    // Set frontend build folder as a static folder
+    app.use(express.static(path.join(__dirname, '/frontend/build')))
+    
+    // Get any route that is not in our API and redirect it to frontend build index.html
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    })
+
+} else {
+
+    app.get('/', (req, res) => {
+        res.send('API is running ...')
+    })
+
+}
 
 app.use(notFound)
 app.use(errorHandler)
